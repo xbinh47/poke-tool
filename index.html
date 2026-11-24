@@ -907,6 +907,7 @@
     }
     .picker-item:hover { border-color: #3b82f6; background: var(--surface-hover); }
     .picker-item.picked { border-color: var(--poke-gold-border); background: var(--poke-gold-bg); }
+    .picker-item.picked:hover { border-color: var(--poke-gold); background: var(--poke-gold-bg); }
     .picker-item img { width: 34px; height: 34px; object-fit: contain; flex-shrink: 0; }
     .picker-item .pn { font-size: 0.78rem; font-weight: 800; color: var(--text); }
     .picker-item .pd { font-size: 0.66rem; font-weight: 700; color: var(--text-muted); }
@@ -1480,7 +1481,9 @@
         const p = JSON.parse(raw);
         return {
           anchors: { ...DEFAULT_STATE.anchors, ...(p.anchors || {}) },
-          wishlist: Array.isArray(p.wishlist) ? p.wishlist : [...DEFAULT_STATE.wishlist],
+          wishlist: Array.isArray(p.wishlist)
+            ? Array.from(new Set(p.wishlist.map(Number).filter(n => Number.isInteger(n) && n >= 0 && n < 70)))
+            : [...DEFAULT_STATE.wishlist],
           myServer: p.myServer ?? null
         };
       } catch { return structuredClone(DEFAULT_STATE); }
@@ -2097,13 +2100,17 @@
     };
     window.toggleWishlist = function(idx, ev) {
       if (ev) ev.stopPropagation();
+      idx = Number(idx);
       const pos = state.wishlist.indexOf(idx);
       const slot = X10_SLOTS[idx];
+      if (!slot) return;
+      let isNowPicked = false;
       if (pos >= 0) {
         state.wishlist.splice(pos, 1);
         showToast(`Đã bỏ ghim ${slot.name}`);
       } else {
         state.wishlist.push(idx);
+        isNowPicked = true;
         const todayIdx = getX10IndexOn(todayDate);
         const d1 = mod(idx - todayIdx, 70);
         const dt1 = addDays(todayDate, d1);
@@ -2112,12 +2119,25 @@
       }
       saveState();
       renderAll();
-      if (document.getElementById("wishPickerModal").classList.contains("open")) renderWishPicker();
+      // Update picker item in-place (no re-sort / no DOM jump / no flicker!)
+      const pickerModal = document.getElementById("wishPickerModal");
+      if (pickerModal.classList.contains("open")) {
+        const btn = pickerModal.querySelector(`.picker-item[data-idx="${idx}"]`);
+        if (btn) {
+          btn.classList.toggle("picked", isNowPicked);
+          const nm = btn.querySelector(".pn");
+          if (nm) nm.textContent = (isNowPicked ? "★ " : "") + slot.name;
+        }
+      }
     };
+
+    let wishPickerInitialPinned = new Set();
 
     window.openWishPicker = function() {
       const inp = document.getElementById("wishPickerSearch");
       inp.value = "";
+      // Snapshot initial pinned set so items stay in a stable position while toggling
+      wishPickerInitialPinned = new Set(state.wishlist);
       renderWishPicker();
       document.getElementById("wishPickerModal").classList.add("open");
       setTimeout(() => inp.focus(), 50);
@@ -2130,12 +2150,18 @@
         .filter(s => !q || stripVN(s.name).includes(q))
         .map(s => {
           const d1 = mod(s.index - todayIdx, 70);
-          return { s, d1, dt1: addDays(todayDate, d1), dt2: addDays(todayDate, d1 + 70), picked: state.wishlist.includes(s.index) };
+          return {
+            s, d1,
+            dt1: addDays(todayDate, d1),
+            dt2: addDays(todayDate, d1 + 70),
+            wasPinned: wishPickerInitialPinned.has(s.index),
+            picked: state.wishlist.includes(s.index)
+          };
         })
-        .sort((a, b) => Number(b.picked) - Number(a.picked) || a.d1 - b.d1);
+        .sort((a, b) => Number(b.wasPinned) - Number(a.wasPinned) || a.d1 - b.d1);
 
       document.getElementById("wishPickerGrid").innerHTML = list.map(({ s, d1, dt1, dt2, picked }) => `
-        <button class="picker-item ${picked ? "picked" : ""}" onclick="toggleWishlist(${s.index})">
+        <button type="button" class="picker-item ${picked ? "picked" : ""}" data-idx="${s.index}" onclick="toggleWishlist(${s.index}, event)">
           ${imgTag(s.art, s.fallback, s.name)}
           <div style="min-width:0;flex:1">
             <div class="pn">${picked ? "★ " : ""}${s.name}</div>
