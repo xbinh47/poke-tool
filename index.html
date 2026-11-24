@@ -1,0 +1,2271 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poke Đại Chiến — Lịch Sự Kiện &amp; Rút x10</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root,
+    [data-theme="light"] {
+      --bg: #edf2fa;
+      --surface: #ffffff;
+      --surface-soft: #f5f8ff;
+      --surface-hover: #e9f1ff;
+      --surface-dim: #f1f5f9;
+      --border: #d5e0f0;
+      --border-strong: #b6c7e2;
+      --text: #111827;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.1);
+
+      --poke-red: #e3350d;
+      --poke-red-dark: #991b1b;
+      --poke-gold: #f59e0b;
+      --poke-gold-bg: #fef3c7;
+      --poke-gold-text: #92400e;
+      --poke-gold-border: #fbbf24;
+
+      --ev-miracle-bg: #ffedd5;
+      --ev-miracle-text: #9a3412;
+      --ev-miracle-border: #fb923c;
+
+      --ev-x2-bg: #dbeafe;
+      --ev-x2-text: #1e40af;
+      --ev-x2-border: #60a5fa;
+
+      --ev-park-bg: #f3e8ff;
+      --ev-park-text: #6b21a8;
+      --ev-park-border: #c084fc;
+
+      --ev-weather-bg: #ccfbf1;
+      --ev-weather-text: #115e59;
+      --ev-weather-border: #2dd4bf;
+
+      --ev-server-bg: #dcfce7;
+      --ev-server-text: #166534;
+      --ev-server-border: #4ade80;
+
+      --stage-bg: linear-gradient(135deg, #fffbeb 0%, #fef3c7 48%, #e0edff 100%);
+      --pedestal-bg: radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, rgba(59, 130, 246, 0.06) 65%, transparent 72%);
+      --today-bg: linear-gradient(180deg, #fffbeb 0%, #ffffff 75%);
+      --selected-bg: #eff6ff;
+      --header-bg: linear-gradient(135deg, #dc2626 0%, #b91c1c 60%, #991b1b 100%);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b111e;
+      --surface: #141d30;
+      --surface-soft: #1a253e;
+      --surface-hover: #223050;
+      --surface-dim: #0f1626;
+      --border: #273654;
+      --border-strong: #394d76;
+      --text: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.28);
+      --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.45);
+
+      --poke-red: #ef4444;
+      --poke-red-dark: #7f1d1d;
+      --poke-gold: #fbbf24;
+      --poke-gold-bg: rgba(251, 191, 36, 0.18);
+      --poke-gold-text: #fde68a;
+      --poke-gold-border: rgba(251, 191, 36, 0.55);
+
+      --ev-miracle-bg: rgba(249, 115, 22, 0.22);
+      --ev-miracle-text: #fed7aa;
+      --ev-miracle-border: rgba(251, 146, 60, 0.55);
+
+      --ev-x2-bg: rgba(56, 189, 248, 0.2);
+      --ev-x2-text: #bae6fd;
+      --ev-x2-border: rgba(56, 189, 248, 0.5);
+
+      --ev-park-bg: rgba(192, 132, 252, 0.22);
+      --ev-park-text: #e9d5ff;
+      --ev-park-border: rgba(192, 132, 252, 0.5);
+
+      --ev-weather-bg: rgba(20, 184, 166, 0.2);
+      --ev-weather-text: #99f6e4;
+      --ev-weather-border: rgba(45, 212, 191, 0.48);
+
+      --ev-server-bg: rgba(34, 197, 94, 0.2);
+      --ev-server-text: #bbf7d0;
+      --ev-server-border: rgba(74, 222, 128, 0.48);
+
+      --stage-bg: linear-gradient(135deg, rgba(251, 191, 36, 0.22) 0%, rgba(30, 58, 138, 0.28) 55%, #11192c 100%);
+      --pedestal-bg: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, rgba(56, 189, 248, 0.08) 65%, transparent 72%);
+      --today-bg: linear-gradient(180deg, rgba(251, 191, 36, 0.2) 0%, #1a253e 70%);
+      --selected-bg: #223458;
+      --header-bg: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 60%, #1e293b 100%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.35;
+      overflow: hidden;
+      transition: background-color 0.18s, color 0.18s;
+    }
+
+    button { font-family: inherit; cursor: pointer; }
+    input, select { font-family: inherit; }
+
+    /* =====================================================================
+       SINGLE-SCREEN 100VH APP SHELL
+       ===================================================================== */
+    .app-shell {
+      height: 100vh;
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Compact Pokédex Header (48px) */
+    .topbar {
+      background: var(--header-bg);
+      color: #fff;
+      border-radius: 13px;
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+      box-shadow: 0 3px 0 rgba(127, 29, 29, 0.42), var(--shadow-sm);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .pokeball {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffcb05 0 44%, #1e293b 44% 56%, #fff 56% 100%);
+      border: 2.5px solid #fff;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .pokeball::after {
+      content: "";
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #1e293b;
+      transform: translate(-50%, -50%);
+    }
+
+    .brand-title {
+      font-size: 0.98rem;
+      font-weight: 900;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .today-mini-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 3px 9px 3px 4px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+    }
+    .today-mini-pill:hover { background: rgba(0, 0, 0, 0.36); }
+    .today-mini-pill img { width: 22px; height: 22px; object-fit: contain; }
+
+    .srv-badge-head {
+      font-size: 0.69rem;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #ffcb05;
+      color: #1e293b;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.22);
+      padding: 3px;
+      border-radius: 10px;
+    }
+
+    .nav-tab {
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.85);
+      padding: 5px 12px;
+      border-radius: 7px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      white-space: nowrap;
+      transition: all 0.14s;
+    }
+    .nav-tab:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+    .nav-tab.active { background: #fff; color: #b91c1c; }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .gbtn {
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.77rem;
+      font-weight: 800;
+      box-shadow: 0 2px 0 var(--border-strong);
+      transition: transform 0.08s, background 0.14s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .gbtn:hover { background: var(--surface-hover); }
+    .gbtn:active { transform: translateY(1px); }
+    .gbtn-head { background: rgba(255,255,255,0.17); border-color: rgba(255,255,255,0.32); color: #fff; box-shadow: none; }
+    .gbtn-head:hover { background: rgba(255,255,255,0.28); }
+    .gbtn-gold { background: #ffcb05; border-color: #eab308; color: #1e293b; box-shadow: 0 2px 0 #b45309; }
+    .gbtn-gold:hover { background: #fde047; }
+    .gbtn-blue { background: #2563eb; border-color: #1d4ed8; color: #fff; box-shadow: 0 2px 0 #1e3a8a; }
+    .gbtn-blue:hover { background: #1d4ed8; }
+    .gbtn-icon { width: 28px; height: 28px; padding: 0; justify-content: center; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.67rem;
+      font-weight: 800;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .pill-gold { background: var(--poke-gold-bg); color: var(--poke-gold-text); border-color: var(--poke-gold-border); }
+    .pill-miracle { background: var(--ev-miracle-bg); color: var(--ev-miracle-text); border-color: var(--ev-miracle-border); }
+    .pill-blue { background: var(--ev-x2-bg); color: var(--ev-x2-text); border-color: var(--ev-x2-border); }
+    .pill-purple { background: var(--ev-park-bg); color: var(--ev-park-text); border-color: var(--ev-park-border); }
+    .pill-teal { background: var(--ev-weather-bg); color: var(--ev-weather-text); border-color: var(--ev-weather-border); }
+    .pill-green { background: var(--ev-server-bg); color: var(--ev-server-text); border-color: var(--ev-server-border); }
+    .pill-muted { background: var(--surface-dim); color: var(--text-muted); border-color: var(--border); }
+
+    /* =====================================================================
+       MAIN VIEWS FILL REMAINING VIEWPORT HEIGHT
+       ===================================================================== */
+    .main-area {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+    }
+
+    .view-panel {
+      display: none;
+      height: 100%;
+    }
+    .view-panel.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* VIEW 1: CALENDAR WORKSPACE (FITS 100% IN 1 SCREEN!) */
+    .cal-workspace {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 315px;
+      gap: 10px;
+    }
+
+    .cal-main-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 15px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Single sleek toolbar row (Month + Lenses + Search all in 1 bar!) */
+    .cal-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+      flex-shrink: 0;
+    }
+
+    .month-nav {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .month-title {
+      font-size: 1rem;
+      font-weight: 900;
+      min-width: 118px;
+      text-align: center;
+      letter-spacing: -0.02em;
+    }
+
+    .lens-bar {
+      display: flex;
+      gap: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      padding: 3px;
+      border-radius: 10px;
+    }
+
+    .lens-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 4px 10px;
+      border-radius: 7px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      white-space: nowrap;
+      transition: all 0.13s;
+    }
+    .lens-btn:hover { color: var(--text); background: var(--surface-hover); }
+    .lens-btn.active {
+      background: var(--poke-red);
+      color: #fff;
+      box-shadow: 0 1px 0 var(--poke-red-dark);
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 150px;
+      max-width: 240px;
+      margin-left: auto;
+    }
+    .search-box input {
+      width: 100%;
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      padding: 5px 26px 5px 9px;
+      border-radius: 9px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      outline: none;
+    }
+    .search-box input:focus { border-color: #3b82f6; background: var(--surface); }
+    .search-clear {
+      position: absolute;
+      right: 5px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      display: none;
+      padding: 2px 4px;
+    }
+    .search-clear.show { display: block; }
+
+    .weather-subbar {
+      display: none;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 7px;
+      flex-shrink: 0;
+    }
+    .weather-subbar.show { display: flex; }
+
+    .fchip {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text-secondary);
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+    .fchip:hover { border-color: var(--border-strong); color: var(--text); }
+    .fchip.on-teal { background: var(--ev-weather-bg); color: var(--ev-weather-text); border-color: var(--ev-weather-border); }
+    .fchip.on-gold { background: var(--poke-gold-bg); color: var(--poke-gold-text); border-color: var(--poke-gold-border); }
+
+    .quick-jump {
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 7px;
+      padding: 5px 9px;
+      background: var(--ev-x2-bg);
+      border: 1px solid var(--ev-x2-border);
+      border-radius: 9px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .quick-jump.show { display: flex; }
+
+    .jump-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+    .jump-btn img { width: 20px; height: 20px; object-fit: contain; }
+
+    /* =====================================================================
+       AUTO-FIT FULL-HEIGHT CALENDAR GRID (LEFT WEEK COLUMN + 7 DAYS)
+       ===================================================================== */
+    .cal-table-area {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .cal-wd-row {
+      display: grid;
+      grid-template-columns: 184px repeat(7, minmax(0, 1fr));
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .cal-wd-row.no-wkcol {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    .cal-wd {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--text-secondary);
+      padding: 4px 2px;
+      border-radius: 7px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+    }
+    .cal-wd.wknd {
+      background: var(--poke-gold-bg);
+      color: var(--poke-gold-text);
+      border-color: var(--poke-gold-border);
+    }
+
+    .cal-weeks-container {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      gap: 5px;
+    }
+
+    .cal-week-row {
+      display: grid;
+      grid-template-columns: 184px repeat(7, minmax(0, 1fr));
+      gap: 5px;
+      min-height: 0;
+    }
+    .cal-week-row.no-wkcol {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    /* Leftmost Weekly Events Cell — ZERO vertical height added! */
+    .wk-summary-cell {
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 4px 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .ws-pill {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 5px;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      line-height: 1.25;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+    .ws-pill .ws-lbl {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .ws-pill .ws-days {
+      font-size: 0.58rem;
+      font-weight: 900;
+      padding: 0 4px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+      letter-spacing: 0.01em;
+    }
+    [data-theme="dark"] .ws-pill .ws-days {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .ws-pill:hover { filter: brightness(0.95); }
+    .ws-miracle { background: var(--ev-miracle-bg); color: var(--ev-miracle-text); border-color: var(--ev-miracle-border); }
+    .ws-x2 { background: var(--ev-x2-bg); color: var(--ev-x2-text); border-color: var(--ev-x2-border); }
+    .ws-park { background: var(--ev-park-bg); color: var(--ev-park-text); border-color: var(--ev-park-border); }
+
+    .day-cell.hl-miracle {
+      border: 2px solid var(--ev-miracle-border) !important;
+      background: var(--ev-miracle-bg) !important;
+    }
+    .day-cell.hl-x2 {
+      border: 2px solid var(--ev-x2-border) !important;
+      background: var(--ev-x2-bg) !important;
+    }
+    .day-cell.hl-park {
+      border: 2px solid var(--ev-park-border) !important;
+      background: var(--ev-park-bg) !important;
+    }
+
+    /* Day Cell — scales smoothly to fit ALL 5-6 weeks in 1 screen! */
+    .day-cell {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 4px 5px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.13s, background 0.13s, opacity 0.13s;
+    }
+
+    .day-cell:hover { background: var(--surface-hover); border-color: #3b82f6; }
+    .day-cell.other-month { opacity: 0.34; background: var(--surface-dim); }
+    .day-cell.is-today { border: 2px solid var(--poke-gold); background: var(--today-bg); }
+    .day-cell.is-selected { border: 2px solid #2563eb; background: var(--selected-bg); }
+    .day-cell.is-dimmed { opacity: 0.2; }
+    .day-cell.is-match { border: 2px solid #2563eb; }
+
+    .day-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .day-num {
+      font-size: 0.74rem;
+      font-weight: 900;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .day-cell.is-today .day-num { color: var(--poke-red); }
+
+    .today-dot {
+      font-size: 0.56rem;
+      font-weight: 900;
+      background: var(--poke-red);
+      color: #fff;
+      padding: 1px 4px;
+      border-radius: 999px;
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      color: var(--border-strong);
+      font-size: 0.8rem;
+      line-height: 1;
+      opacity: 0.22;
+      padding: 0 2px;
+    }
+    .day-cell:hover .star-btn,
+    .star-btn.on { opacity: 1; }
+    .star-btn.on { color: #f59e0b; }
+
+    /* Flexible Pokemon Center */
+    .cell-poke {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 1px;
+    }
+
+    .poke-pedestal {
+      width: clamp(34px, 5.4vh, 52px);
+      height: clamp(34px, 5.4vh, 52px);
+      border-radius: 50%;
+      background: var(--pedestal-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 1;
+    }
+    .poke-pedestal img {
+      width: 96%;
+      height: 96%;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.22));
+    }
+
+    .cell-poke-name {
+      font-size: 0.71rem;
+      font-weight: 800;
+      color: var(--text);
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.15;
+    }
+
+    /* Dedicated Weather / Server / Event Cell Content */
+    .cell-focus {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 2px;
+      overflow: hidden;
+    }
+    .cw-icon { font-size: 1.2rem; line-height: 1; }
+    .cw-name { font-size: 0.72rem; font-weight: 900; color: var(--ev-weather-text); }
+    .cw-time {
+      font-size: 0.63rem;
+      font-weight: 800;
+      background: var(--ev-weather-bg);
+      color: var(--ev-weather-text);
+      border: 1px solid var(--ev-weather-border);
+      border-radius: 5px;
+      padding: 1px 4px;
+      white-space: nowrap;
+    }
+    .cw-multi {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+    }
+    .cw-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--ev-weather-bg);
+      color: var(--ev-weather-text);
+      border: 1px solid var(--ev-weather-border);
+      border-radius: 6px;
+      padding: 2px 3px;
+      line-height: 1.15;
+    }
+    .cw-slot-n {
+      font-size: 0.65rem;
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .cw-slot-t {
+      font-size: 0.6rem;
+      font-weight: 700;
+      opacity: 0.92;
+      white-space: nowrap;
+    }
+
+    .cs-num {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: var(--ev-server-text);
+      background: var(--ev-server-bg);
+      border: 1.5px solid var(--ev-server-border);
+      padding: 2px 9px;
+      border-radius: 8px;
+    }
+    .cs-meta { font-size: 0.66rem; font-weight: 700; color: var(--text-muted); }
+
+    .ce-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      width: 100%;
+    }
+    .ce-pill {
+      font-size: 0.66rem;
+      font-weight: 800;
+      padding: 2px 5px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* =====================================================================
+       RIGHT SIDEBAR (POKÉDEX INSPECTOR + WISHLIST — FITS 100% IN 1 SCREEN!)
+       ===================================================================== */
+    .side-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 15px;
+      padding: 11px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      overflow-y: auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .insp-hero {
+      background: var(--stage-bg);
+      border: 1.5px solid var(--poke-gold-border);
+      border-radius: 12px;
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .insp-hero img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+    }
+    .insp-hero h3 { font-size: 1.04rem; font-weight: 900; line-height: 1.15; }
+    .insp-hero .sub { font-size: 0.73rem; font-weight: 700; color: var(--text-secondary); margin-top: 2px; }
+
+    .info-box {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 9px;
+      font-size: 0.77rem;
+    }
+    .info-box-head {
+      font-size: 0.68rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .miracle-imgs { display: flex; gap: 5px; margin-bottom: 4px; }
+    .miracle-imgs img {
+      width: 36px; height: 36px; object-fit: contain;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 2px;
+    }
+    .shadow-lugia { filter: hue-rotate(30deg) brightness(0.72) contrast(1.35) drop-shadow(0 0 5px rgba(147, 51, 234, 0.65)); }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .wish-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .wish-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 4px 7px;
+      cursor: pointer;
+    }
+    .wish-row:hover { border-color: var(--poke-gold-border); background: var(--surface-hover); }
+    .wish-row img { width: 28px; height: 28px; object-fit: contain; flex-shrink: 0; }
+    .wish-row .wn { font-size: 0.77rem; font-weight: 800; }
+    .wish-row .ww { font-size: 0.67rem; font-weight: 700; color: var(--poke-red); }
+    .wish-row .ww2 {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-top: 1px;
+    }
+    .wish-date-link {
+      padding: 0 4px;
+      border-radius: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .wish-date-link:hover { border-color: #3b82f6; color: #2563eb; }
+    .wish-row .wd { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; margin-left: auto; padding: 2px 4px; }
+    .wish-row .wd:hover { color: var(--poke-red); }
+
+    /* Wishlist Picker Grid */
+    .picker-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      max-height: 55vh;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding-right: 2px;
+    }
+    .picker-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 8px;
+      cursor: pointer;
+      transition: all 0.12s;
+      text-align: left;
+    }
+    .picker-item:hover { border-color: #3b82f6; background: var(--surface-hover); }
+    .picker-item.picked { border-color: var(--poke-gold-border); background: var(--poke-gold-bg); }
+    .picker-item img { width: 34px; height: 34px; object-fit: contain; flex-shrink: 0; }
+    .picker-item .pn { font-size: 0.78rem; font-weight: 800; color: var(--text); }
+    .picker-item .pd { font-size: 0.66rem; font-weight: 700; color: var(--text-muted); }
+
+    /* =====================================================================
+       VIEW 2 (10 WEEKS) & VIEW 3 (REF) — INTERNAL SCROLL CLEANLY
+       ===================================================================== */
+    .scroll-view {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 15px;
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .x10-row {
+      display: grid;
+      grid-template-columns: 74px repeat(7, minmax(110px, 1fr));
+      gap: 6px;
+      margin-bottom: 6px;
+      min-width: 860px;
+    }
+    .x10-wk {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: var(--surface-soft); border: 1.5px solid var(--border); border-radius: 10px;
+      font-weight: 900; font-size: 0.8rem; color: var(--text-secondary);
+    }
+    .x10-wk.curr { background: var(--poke-gold-bg); border-color: var(--poke-gold-border); color: var(--poke-gold-text); }
+    .x10-tile {
+      background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 6px 5px; display: flex; flex-direction: column; align-items: center; text-align: center;
+      gap: 2px; position: relative; cursor: pointer;
+    }
+    .x10-tile:hover { background: var(--surface-hover); border-color: #3b82f6; }
+    .x10-tile.today { border: 2px solid var(--poke-gold); background: var(--today-bg); }
+    .x10-tile.dim { opacity: 0.22; }
+    .x10-tile img { width: 48px; height: 48px; object-fit: contain; }
+    .x10-tile .nm { font-size: 0.74rem; font-weight: 800; }
+    .x10-tile .dt { font-size: 0.66rem; font-weight: 800; color: var(--text-muted); background: var(--surface-dim); padding: 1px 6px; border-radius: 999px; }
+    .x10-tile.today .dt { background: var(--poke-red); color: #fff; }
+
+    .ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .ref-box { background: var(--surface-soft); border: 1.5px solid var(--border); border-radius: 13px; padding: 12px; margin-bottom: 12px; }
+    .cycle-quad { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .cycle-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 9px; display: flex; flex-direction: column; gap: 6px; }
+    .cycle-box.active { border: 2px solid var(--poke-gold); background: var(--today-bg); }
+    .linear-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-top: 8px; }
+    .lin-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 5px; text-align: center; cursor: pointer; }
+    .lin-card.active { border: 2px solid var(--poke-gold); background: var(--poke-gold-bg); }
+    .cube-row { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 10px; margin-bottom: 7px; }
+    .cube-row.match { border: 2px solid var(--poke-gold); background: var(--poke-gold-bg); }
+    .cube-imgs { display: flex; gap: 4px; flex-shrink: 0; }
+    .cube-imgs img { width: 34px; height: 34px; border-radius: 7px; }
+    .type-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .type-tag { padding: 3px 9px; border-radius: 999px; font-size: 0.76rem; font-weight: 800; background: var(--surface-soft); border: 1px solid var(--border); color: var(--text); }
+    .type-tag.sel { background: var(--poke-red); color: #fff; border-color: var(--poke-red); }
+    .srv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-height: 280px; overflow-y: auto; margin-top: 8px; }
+    .srv-chip { background: var(--surface); border: 1.5px solid var(--border); border-radius: 8px; padding: 5px 7px; font-size: 0.74rem; font-weight: 700; display: flex; justify-content: space-between; }
+    .srv-chip strong { color: var(--poke-red); font-weight: 900; }
+    .srv-chip.hi { border: 2px solid var(--ev-server-border); background: var(--ev-server-bg); color: var(--ev-server-text); }
+
+    /* Modal & Toast */
+    .modal-bg {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; padding: 14px; z-index: 999;
+    }
+    .modal-bg.open { display: flex; }
+    .modal {
+      background: var(--surface); border: 2px solid var(--border); border-radius: 16px;
+      max-width: 450px; width: 100%; padding: 18px; box-shadow: var(--shadow-md); max-height: 90vh; overflow-y: auto;
+    }
+    .form-g { margin-bottom: 11px; }
+    .form-g label { display: block; font-size: 0.79rem; font-weight: 800; color: var(--text-secondary); margin-bottom: 4px; }
+    .form-g select, .form-g input {
+      width: 100%; background: var(--surface-soft); border: 1.5px solid var(--border);
+      color: var(--text); padding: 8px 10px; border-radius: 9px; font-size: 0.84rem; font-weight: 600; outline: none;
+    }
+
+    .toast {
+      position: fixed; bottom: 16px; right: 16px; background: #111827; color: #fff;
+      border: 2px solid #ffcb05; padding: 8px 14px; border-radius: 10px; font-size: 0.8rem;
+      font-weight: 700; opacity: 0; transform: translateY(10px); pointer-events: none; transition: all 0.18s; z-index: 1000;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* =====================================================================
+       RESPONSIVE: TABLET (<= 1020px) & MOBILE PHONE (<= 720px)
+       ===================================================================== */
+    @media (max-width: 1020px) {
+      html, body { height: auto; overflow-x: hidden; overflow-y: auto; }
+      .app-shell { height: auto; min-height: 100vh; padding: 8px; }
+      .topbar { flex-wrap: wrap; padding: 8px 10px; gap: 8px; }
+      .brand { order: 1; }
+      .top-actions { order: 2; margin-left: auto; }
+      .nav-tabs { order: 3; width: 100%; justify-content: space-between; }
+      .nav-tab { flex: 1; text-align: center; padding: 6px 8px; font-size: 0.78rem; }
+      .today-mini-pill { display: none; }
+
+      .cal-workspace { grid-template-columns: minmax(0, 1fr); }
+      .cal-main-card, .side-card, .scroll-view { min-width: 0; overflow: visible; }
+      .cal-wd-row, .cal-week-row { grid-template-columns: 146px repeat(7, minmax(0, 1fr)); gap: 4px; }
+      .cal-wd-row.no-wkcol, .cal-week-row.no-wkcol { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+      .cal-weeks-container { grid-template-rows: none !important; }
+      .day-cell { min-height: 86px; }
+      .poke-pedestal { width: 42px; height: 42px; }
+      .ref-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .app-shell { padding: 6px; gap: 6px; width: 100%; max-width: 100vw; overflow-x: hidden; }
+      .topbar { width: 100%; max-width: 100%; padding: 7px 8px; gap: 6px; }
+      .brand-title { font-size: 0.88rem; }
+      .pokeball { width: 24px; height: 24px; }
+      .nav-tabs { width: 100%; min-width: 0; }
+      .nav-tab { padding: 5px 4px; font-size: 0.71rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+      .gbtn { padding: 4px 7px; font-size: 0.72rem; }
+
+      .cal-main-card { padding: 7px 5px; border-radius: 12px; width: 100%; max-width: 100%; overflow: hidden; }
+      .cal-toolbar { gap: 6px; width: 100%; min-width: 0; }
+      .month-nav { width: 100%; justify-content: space-between; }
+      .month-title { flex: 1; font-size: 0.94rem; min-width: 0; }
+      .lens-bar { width: 100%; max-width: 100%; min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .lens-btn { flex: 0 0 auto; text-align: center; padding: 5px 8px; font-size: 0.71rem; }
+      .search-box { width: 100%; max-width: none; margin-left: 0; min-width: 0; }
+      .cal-table-area { width: 100%; min-width: 0; }
+
+      /* Mobile Calendar: All 7 days fit 100% width — ZERO horizontal scroll! */
+      #wkColHeader { display: none !important; }
+      .cal-wd-row,
+      .cal-wd-row.no-wkcol {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 3px;
+      }
+      .cal-week-row,
+      .cal-week-row.no-wkcol {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 3px;
+      }
+      /* Weekly events move neatly under the 7 days of each week row! */
+      .wk-summary-cell {
+        grid-column: 1 / -1;
+        order: 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        padding: 4px 5px;
+        gap: 4px;
+        border-radius: 8px;
+        margin-bottom: 3px;
+      }
+      .ws-pill { font-size: 0.63rem; padding: 2px 5px; }
+      .ws-pill .ws-days { font-size: 0.56rem; }
+
+      .day-cell {
+        order: 1;
+        min-height: 74px;
+        padding: 3px 2px;
+        border-radius: 8px;
+      }
+      .day-num { font-size: 0.66rem; gap: 2px; }
+      .today-dot { font-size: 0.48rem; padding: 0 3px; }
+      .star-btn { font-size: 0.7rem; padding: 0; }
+      .poke-pedestal { width: 32px; height: 32px; }
+      .cell-poke-name { font-size: 0.6rem; }
+      .cw-icon { font-size: 1rem; }
+      .cw-name { font-size: 0.6rem; }
+      .cw-time { font-size: 0.54rem; padding: 1px 2px; }
+      .cs-num { font-size: 0.66rem; padding: 2px 4px; }
+      .cs-meta { font-size: 0.55rem; }
+      .ce-pill { font-size: 0.56rem; padding: 1px 3px; }
+
+      .side-card { padding: 10px; border-radius: 12px; }
+      .insp-hero img { width: 62px; height: 62px; }
+      .scroll-view { padding: 10px; border-radius: 12px; }
+    }
+
+    @media (max-width: 520px) {
+      .picker-grid { grid-template-columns: 1fr; }
+      .cycle-quad { grid-template-columns: 1fr; }
+      .linear-4 { grid-template-columns: repeat(2, 1fr); }
+      .srv-grid { grid-template-columns: repeat(2, 1fr); }
+      .toast { left: 12px; right: 12px; bottom: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ==================== COMPACT POKÉDEX HEADER ==================== -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="pokeball"></div>
+        <div class="brand-title">
+          Poke Đại Chiến
+          <span id="myServerPill" class="srv-badge-head" style="display:none"></span>
+        </div>
+        <div class="today-mini-pill" id="todayQuickPill" title="Bấm để về hôm nay"></div>
+      </div>
+
+      <nav class="nav-tabs" role="tablist">
+        <button class="nav-tab active" data-view="calendar">📅 Lịch Tháng</button>
+        <button class="nav-tab" data-view="weeks">📋 10 Tuần x10</button>
+        <button class="nav-tab" data-view="ref">🧊 Vòng Lặp • Hệ • SV</button>
+      </nav>
+
+      <div class="top-actions">
+        <button class="gbtn gbtn-head" id="btnThemeToggle" title="Đổi Sáng / Tối">🌙 Tối</button>
+        <button class="gbtn gbtn-gold" id="btnOpenCalib">⚙ Chỉnh mốc</button>
+      </div>
+    </header>
+
+    <main class="main-area">
+      <!-- ==================== VIEW 1: 100VH MONTHLY CALENDAR ==================== -->
+      <section class="view-panel active" id="view-calendar">
+        <div class="cal-workspace">
+          <!-- Left: Auto-fit Calendar -->
+          <div class="cal-main-card">
+            <div class="cal-toolbar">
+              <div class="month-nav">
+                <button class="gbtn gbtn-icon" id="btnPrevMonth" title="Tháng trước">◀</button>
+                <div class="month-title" id="calMonthTitle">Tháng 11, 2026</div>
+                <button class="gbtn gbtn-icon" id="btnNextMonth" title="Tháng sau">▶</button>
+                <button class="gbtn" id="btnCalToday">Nay</button>
+              </div>
+
+              <div class="lens-bar" id="lensBar">
+                <button class="lens-btn active" data-lens="x10">🎲 Rút x10</button>
+                <button class="lens-btn" data-lens="events">🔥 Sự kiện</button>
+                <button class="lens-btn" data-lens="weather">🌦 Thời tiết</button>
+                <button class="lens-btn" data-lens="server">🆕 SV mới</button>
+                <button class="lens-btn" data-lens="wish">⭐ Đã ghim</button>
+              </div>
+
+              <div class="search-box">
+                <input type="text" id="calSearch" placeholder="🔍 Tìm Pokémon..." />
+                <button class="search-clear" id="calSearchClear">✕</button>
+              </div>
+            </div>
+
+            <div class="weather-subbar" id="weatherSubbar">
+              <button class="fchip on-teal" data-wtype="">Tất cả</button>
+              <button class="fchip" data-wtype="1">🌧 Mưa</button>
+              <button class="fchip" data-wtype="2">🌧️ Mưa lớn</button>
+              <button class="fchip" data-wtype="3">⛈ Mưa giông</button>
+              <button class="fchip" data-wtype="4">🌨 Tuyết</button>
+              <button class="fchip" data-wtype="5">❄️ Tuyết nhiều</button>
+              <button class="fchip" data-wtype="6">🌬️ Bão tuyết</button>
+              <button class="fchip" data-wtype="7">🌫 Sương mù</button>
+              <button class="fchip" data-wtype="8">🌪 Bão cát</button>
+              <button class="fchip" data-wtype="9">☀️ Trời đẹp</button>
+            </div>
+
+            <div class="quick-jump" id="quickJump"></div>
+
+            <div class="cal-table-area">
+              <div class="cal-wd-row" id="calWdRow">
+                <div class="cal-wd" id="wkColHeader">Sự kiện tuần</div>
+                <div class="cal-wd">T2</div>
+                <div class="cal-wd">T3</div>
+                <div class="cal-wd">T4</div>
+                <div class="cal-wd">T5</div>
+                <div class="cal-wd">T6</div>
+                <div class="cal-wd">T7</div>
+                <div class="cal-wd">CN</div>
+              </div>
+              <div class="cal-weeks-container" id="calWeeksContainer"></div>
+            </div>
+          </div>
+
+          <!-- Right: Compact Pokédex Day Inspector + Wishlist -->
+          <aside class="side-card" id="sidePanel"></aside>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 2: 10-WEEK X10 TABLE ==================== -->
+      <section class="view-panel" id="view-weeks">
+        <div class="scroll-view">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px">
+            <strong style="font-size:0.98rem">📋 Toàn Bộ Lịch Rút x10 (70 ngày — bấm để nhảy tới lịch)</strong>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="search-box" style="margin:0;min-width:190px">
+                <input type="text" id="weeksSearch" placeholder="🔍 Lọc trong 70 con..." />
+              </div>
+              <button class="fchip" id="btnWeeksWishOnly">⭐ Chỉ Pet ghim</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <div class="x10-row" id="x10HeadRow"></div>
+            <div id="x10BodyRows"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 3: CYCLES, CUBES & SERVERS ==================== -->
+      <section class="view-panel" id="view-ref">
+        <div class="scroll-view">
+          <div class="ref-grid">
+            <div>
+              <div class="ref-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">
+                  <strong style="font-size:0.95rem">✨ Đổi Kỳ Tích Hàng Tuần (T6 – T2)</strong>
+                  <span class="pill pill-miracle">4 ngày • xoay 4 tuần</span>
+                </div>
+                <div class="cycle-quad" id="refWeeklyQuad"></div>
+              </div>
+
+              <div class="ref-box">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <strong style="font-size:0.95rem">⚡ Sự Kiện x2 (T7 &amp; CN)</strong>
+                  <span class="pill pill-blue">Bấm để khớp</span>
+                </div>
+                <div class="linear-4" id="refX2List"></div>
+                <div style="font-size:0.74rem;color:var(--text-muted);margin-top:6px;font-weight:600" id="refX2Note"></div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+                  <strong style="font-size:0.95rem">🎡 Vòng Công Viên (T6 – T2)</strong>
+                  <span class="pill pill-purple">4 ngày: T6–T2</span>
+                </div>
+                <div class="linear-4" id="refFriSunList"></div>
+                <div style="font-size:0.74rem;color:var(--text-muted);margin-top:6px;font-weight:600" id="refFriSunNote"></div>
+              </div>
+
+              <div class="ref-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                  <strong style="font-size:0.95rem">🆕 Lịch Ra Server Mới (10:00 sáng)</strong>
+                  <span class="pill pill-green">Mỗi 2 ngày +1 SV</span>
+                </div>
+                <div class="srv-grid" id="newServerSchedule" style="max-height:none"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="ref-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                  <strong style="font-size:0.95rem">🧊 Bảng Rương / Đá Hệ (18 hệ)</strong>
+                  <button class="gbtn" id="btnClearType" style="display:none;padding:2px 8px;font-size:0.72rem">Bỏ chọn</button>
+                </div>
+                <div id="refCubes"></div>
+              </div>
+
+              <div class="ref-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                  <strong style="font-size:0.95rem">🌐 Tra Cứu Cụm Server (C1 – C36)</strong>
+                  <span class="pill pill-muted">S1 – S2304</span>
+                </div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px">
+                  <input type="number" id="srvInput" min="1" max="9999" placeholder="Nhập số server (vd: 1895)..."
+                    style="flex:1;min-width:130px;background:var(--surface);border:1.5px solid var(--border);color:var(--text);padding:6px 9px;border-radius:8px;font-size:0.82rem;font-weight:700;outline:none" />
+                  <button class="gbtn gbtn-blue" id="btnSrvFind">Tra cứu</button>
+                  <button class="gbtn" id="btnSrvSave">Lưu SV tôi</button>
+                </div>
+                <div id="srvResult" style="display:none;padding:7px 10px;border-radius:8px;background:var(--ev-server-bg);border:1px solid var(--ev-server-border);color:var(--ev-server-text);font-size:0.8rem;font-weight:700;margin-bottom:7px"></div>
+                <div class="srv-grid" id="srvGrid"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Calibration Modal -->
+  <div class="modal-bg" id="calibModal">
+    <div class="modal">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h3 style="font-size:1rem;font-weight:900">⚙ Hiệu Chỉnh Mốc Lịch</h3>
+        <button class="gbtn gbtn-icon" id="calibClose">✕</button>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px">
+        Chốt đúng sự kiện hôm nay (<strong id="calibTodayText" style="color:var(--poke-red)"></strong>). Toàn bộ lịch sẽ tự đồng bộ!
+      </p>
+
+      <div class="form-g">
+        <label for="calX10">1. Rút x10 hôm nay đang là con nào?</label>
+        <select id="calX10"></select>
+      </div>
+      <div class="form-g">
+        <label for="calWeekly">2. Đổi Kỳ Tích hàng tuần (T6–T2) đợt này?</label>
+        <select id="calWeekly"></select>
+      </div>
+      <div class="form-g">
+        <label for="calX2">3. Sự kiện x2 (T7 &amp; CN) tuần này?</label>
+        <select id="calX2"></select>
+      </div>
+      <div class="form-g">
+        <label for="calFriSun">4. Vòng Công Viên (T6–T2) tuần này?</label>
+        <select id="calFriSun"></select>
+      </div>
+      <div class="form-g">
+        <label for="calNewSrv">5. Server mới gần nhất (cứ 2 ngày +1 SV lúc 10:00)</label>
+        <input type="number" id="calNewSrv" min="1" max="9999" />
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;padding-top:10px;border-top:1px solid var(--border)">
+        <button class="gbtn" id="calibReset" style="margin-right:auto;color:var(--poke-red)">Mặc định</button>
+        <button class="gbtn" id="calibCancel">Hủy</button>
+        <button class="gbtn gbtn-blue" id="calibSave">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wishlist Picker Modal -->
+  <div class="modal-bg" id="wishPickerModal">
+    <div class="modal" style="max-width:520px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h3 style="font-size:1rem;font-weight:900">⭐ Chọn Pet Đang Săn (Lịch x10)</h3>
+        <button class="gbtn gbtn-icon" id="wishPickerClose">✕</button>
+      </div>
+      <p style="font-size:0.76rem;color:var(--text-muted);margin-bottom:8px">
+        Bấm vào Pokémon để thêm hoặc bỏ khỏi danh sách theo dõi. Mỗi con sẽ hiện luôn <strong>2 lần ra tiếp theo</strong> (cách nhau 70 ngày).
+      </p>
+      <input type="text" id="wishPickerSearch" placeholder="🔍 Tìm tên Pokémon (vd: Dialga, Ho-Oh, Zeraora, Greninja...)"
+        style="width:100%;background:var(--surface-soft);border:1.5px solid var(--border);color:var(--text);padding:8px 11px;border-radius:9px;font-size:0.84rem;font-weight:600;outline:none" />
+      <div class="picker-grid" id="wishPickerGrid"></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:12px;padding-top:8px;border-top:1px solid var(--border)">
+        <button class="gbtn gbtn-blue" id="wishPickerDone">Xong</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="weather-data.js"></script>
+  <script>
+    const ART_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork";
+    const artUrl = (id, shiny = false) => shiny ? `${ART_BASE}/shiny/${id}.png` : `${ART_BASE}/${id}.png`;
+
+    const X10_RAW = [
+      [["Silvally", 773], ["Dialga", 483], ["Xerneas", 716], ["Uxie", 480], ["Mesprit", 481], ["Kartana", 798], ["Misty's Starmie", 121]],
+      [["Lunala", 792], ["Mewtwo", 150], ["Victini", 494], ["Volcanion", 721], ["Darkrai", 491], ["Virizion", 640], ["Brock's Onix", 95]],
+      [["Deoxys", 386], ["Ho-Oh", 250], ["Diancie", 719], ["Xurkitree", 796], ["Terrakion", 639], ["Poipole", 803], ["Jessie's Arbok", 24]],
+      [["Lõi Zygarde", 718], ["Genesect", 649], ["Groudon", 383], ["Cobalion", 638], ["Agatha's Gengar", 94], ["James's Mareanie", 747], ["Rocket's Wobbuffet", 202]],
+      [["Jirachi", 385], ["Tapu Koko", 785], ["Tapu Lele", 786], ["Zeraora", 807], ["Greninja Bond", 10117], ["Steven's Metagross", 376, true], ["Ash's Snorlax", 143]],
+      [["Latios", 381], ["Tapu Fini", 788], ["Keldeo", 647], ["Cresselia", 488], ["Tapu Bulu", 787], ["Misty's Psyduck", 54], ["Lance's Dragonite", 149]],
+      [["Latias", 380], ["Stakataka", 805], ["Tornadus", 641], ["Heatran", 485], ["Buzzwole", 794], ["Regigigas", 486], ["Jessie's Mimikyu", 778]],
+      [["Palkia", 484], ["Marshadow", 802], ["Lugia", 249], ["Raikou", 243], ["Magearna", 801], ["Meloetta", 648], ["Rocket's Meowth", 52]],
+      [["Solgaleo", 791], ["Zorua", 570], ["Blacephalon", 806], ["Celesteela", 797], ["Suicune", 245], ["Ash's Hawlucha", 701], ["James's Weezing", 110]],
+      [["Celebi", 251], ["Yveltal", 717], ["Thundurus", 642], ["Nihilego", 793], ["Landorus", 645], ["Azelf", 482], ["Ash's Sceptile", 254]]
+    ];
+
+    const X10_SLOTS = [];
+    X10_RAW.forEach((week, wIdx) => {
+      week.forEach(([name, dexId, shiny], dIdx) => {
+        X10_SLOTS.push({
+          index: wIdx * 7 + dIdx, week: wIdx + 1, dayInWeek: dIdx + 1, name, dexId,
+          art: artUrl(dexId, Boolean(shiny)),
+          fallback: `icons/x10_${wIdx + 1}_${dIdx + 1}.png`
+        });
+      });
+    });
+
+    const WEEKLY_MIRACLE = [
+      { id: 0, title: "Đợt 1", short: "Đợt 1 (2 Pet)", tag: "Kỳ Tích Đợt 1", pets: [
+        { name: "Đợt 1 #1", img: "icons/weekly_g1_1.png", fb: "icons/weekly_g1_1.png" },
+        { name: "Đợt 1 #2", img: "icons/weekly_g1_2.png", fb: "icons/weekly_g1_2.png" }
+      ]},
+      { id: 1, title: "Đợt 2", short: "Zoroark & Entei", tag: "Zoroark & Entei", pets: [
+        { name: "Zoroark", img: artUrl(571), fb: "icons/weekly_g2_1.png" },
+        { name: "Entei", img: artUrl(244), fb: "icons/weekly_g2_2.png" }
+      ]},
+      { id: 2, title: "Đợt 3", short: "Quái Vật Lòng Đất • Biển Cả • Mewtwo Giáp", tag: "Lòng Đất & Biển Cả", pets: [
+        { name: "Quái Vật Lòng Đất", img: artUrl(10078), fb: "icons/weekly_g3_1.png" },
+        { name: "Quái Vật Biển Cả", img: artUrl(10077), fb: "icons/weekly_g3_2.png" },
+        { name: "Mewtwo Giáp", img: artUrl(150), fb: "icons/weekly_g3_3.png" }
+      ]},
+      { id: 3, title: "Đợt 4", short: "Hắc Lugia & Nhóm 4", tag: "Hắc Lugia & N4", pets: [
+        { name: "Đợt 4 #1", img: "icons/weekly_g4_1.png", fb: "icons/weekly_g4_1.png" },
+        { name: "Hắc Lugia", img: artUrl(249), fb: "icons/weekly_g4_2.png", cls: "shadow-lugia" },
+        { name: "Đợt 4 #3", img: "icons/weekly_g4_3.png", fb: "icons/weekly_g4_3.png" }
+      ]}
+    ];
+
+    const MONTHLY_MIRACLE = [
+      { id: 0, months: [1, 4, 7, 10], label: "Tháng 1, 4, 7, 10", icons: ["icons/monthly_1_1.png", "icons/monthly_1_2.png"] },
+      { id: 1, months: [2, 5, 8, 11], label: "Tháng 2, 5, 8, 11", icons: ["icons/monthly_2_1.png", "icons/monthly_2_2.png"] },
+      { id: 2, months: [3, 6, 9, 12], label: "Tháng 3, 6, 9, 12", icons: ["icons/monthly_3_1.png", "icons/monthly_3_2.png"] }
+    ];
+
+    const X2_CYCLE = ["Thể Lực", "Master", "Thẻ Gộp", "Tinh Anh"];
+    const FRISUN_CYCLE = ["Cá Bé", "Công Viên", "Cá Lớn", "Bàn Quay KC"];
+
+    const WEATHER_TYPES = {
+      1: { name: "Mưa", icon: "🌧" }, 2: { name: "Mưa lớn", icon: "🌧️" }, 3: { name: "Mưa giông", icon: "⛈" },
+      4: { name: "Tuyết", icon: "🌨" }, 5: { name: "Tuyết nhiều", icon: "❄️" }, 6: { name: "Bão tuyết", icon: "🌬️" },
+      7: { name: "Sương mù", icon: "🌫" }, 8: { name: "Bão cát", icon: "🌪" }, 9: { name: "Trời đẹp", icon: "☀️" }
+    };
+
+    const CUBE_GROUPS = [
+      { title: "Nhóm Rương 1", icons: ["icons/cube_1_1.png", "icons/cube_1_2.png", "icons/cube_1_3.png"], types: ["Thường", "Nham", "Hồn", "Cỏ", "Bay", "Lửa"] },
+      { title: "Nhóm Rương 2", icons: ["icons/cube_2_1.png", "icons/cube_2_2.png", "icons/cube_2_3.png"], types: ["Đất", "Sâu", "Băng", "Nước", "Ác", "Rồng"] },
+      { title: "Nhóm Rương 3", icons: ["icons/cube_3_1.png", "icons/cube_3_2.png", "icons/cube_3_3.png"], types: ["Đánh", "Độc", "Siêu", "Yêu", "Thép", "Điện"] }
+    ];
+
+    const SERVER_CLUSTERS = [
+      { id: "C1", start: 1, end: 83 }, { id: "C2", start: 84, end: 140 }, { id: "C3", start: 141, end: 210 },
+      { id: "C4", start: 211, end: 279 }, { id: "C5", start: 280, end: 320 }, { id: "C6", start: 321, end: 390 },
+      { id: "C7", start: 391, end: 462 }, { id: "C8", start: 463, end: 528 }, { id: "C9", start: 529, end: 587 },
+      { id: "C10", start: 588, end: 640 }, { id: "C11", start: 641, end: 712 }, { id: "C12", start: 713, end: 778 },
+      { id: "C13", start: 779, end: 837 }, { id: "C14", start: 838, end: 900 }, { id: "C15", start: 901, end: 973 },
+      { id: "C16", start: 974, end: 1041 }, { id: "C17", start: 1042, end: 1095 }, { id: "C18", start: 1096, end: 1176 },
+      { id: "C19", start: 1177, end: 1220 }, { id: "C20", start: 1221, end: 1284 }, { id: "C21", start: 1285, end: 1354 },
+      { id: "C22", start: 1355, end: 1420 }, { id: "C23", start: 1421, end: 1484 }, { id: "C24", start: 1485, end: 1540 },
+      { id: "C25", start: 1541, end: 1604 }, { id: "C26", start: 1605, end: 1668 }, { id: "C27", start: 1669, end: 1732 },
+      { id: "C28", start: 1733, end: 1800 }, { id: "C29", start: 1801, end: 1863 }, { id: "C30", start: 1864, end: 1926 },
+      { id: "C31", start: 1927, end: 1989 }, { id: "C32", start: 1990, end: 2052 }, { id: "C33", start: 2053, end: 2115 },
+      { id: "C34", start: 2116, end: 2178 }, { id: "C35", start: 2179, end: 2241 }, { id: "C36", start: 2242, end: 2304 }
+    ];
+
+    // Weather cache (preloaded Nov-Dec + on-demand CORS fetch)
+    const WEATHER_CACHE_KEY = "poke_dai_chien_weather_cache_v1";
+    const weatherCache = {
+      months: new Set(typeof PRELOADED_WEATHER_MONTHS !== "undefined" ? PRELOADED_WEATHER_MONTHS : []),
+      byMD: Object.assign({}, typeof PRELOADED_WEATHER !== "undefined" ? PRELOADED_WEATHER : {})
+    };
+    try {
+      const sw = JSON.parse(localStorage.getItem(WEATHER_CACHE_KEY) || "null");
+      if (sw && sw.byMD) { Object.assign(weatherCache.byMD, sw.byMD); (sw.months || []).forEach(m => weatherCache.months.add(m)); }
+    } catch {}
+
+    const weatherLoadingMonths = new Set();
+    async function ensureWeatherMonth(m) {
+      if (weatherCache.months.has(m) || weatherLoadingMonths.has(m)) return;
+      weatherLoadingMonths.add(m);
+      try {
+        const fetched = {};
+        for (let t = 1; t <= 9; t++) {
+          const res = await fetch(`https://thangtinshop.com/api/thoi-tiet/type?type=${t}&month=${m}`);
+          if (!res.ok) continue;
+          const data = await res.json();
+          if (data && typeof data === "object") {
+            Object.entries(data).forEach(([dayStr, entries]) => {
+              const key = `${String(m).padStart(2, "0")}-${String(Number(dayStr)).padStart(2, "0")}`;
+              const vals = Array.isArray(entries) ? entries : Object.values(entries || {});
+              vals.forEach(item => {
+                const tm = typeof item === "object" ? item.time : String(item);
+                if (tm) { if (!fetched[key]) fetched[key] = []; fetched[key].push([t, tm]); }
+              });
+            });
+          }
+        }
+        Object.keys(fetched).forEach(k => fetched[k].sort((a, b) => a[1].localeCompare(b[1])));
+        Object.assign(weatherCache.byMD, fetched);
+        weatherCache.months.add(m);
+        try { localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify({ months: Array.from(weatherCache.months), byMD: weatherCache.byMD })); } catch {}
+        renderCalendar();
+        renderSidePanel();
+      } catch {} finally { weatherLoadingMonths.delete(m); }
+    }
+
+    // State & Theme
+    const STORAGE_KEY = "poke_dai_chien_cal_v2";
+    const THEME_KEY = "poke_dai_chien_theme";
+    const DEFAULT_STATE = {
+      anchors: {
+        x10Date: "2026-11-24", x10Index: 4,
+        weeklyFriday: "2026-11-20", weeklyIndex: 2,
+        x2Saturday: "2026-11-21", x2Index: 0, x2Calibrated: false,
+        friSunFriday: "2026-11-20", friSunIndex: 0, friSunCalibrated: false,
+        newServerDate: "2026-11-24", newServerNum: 1972
+      },
+      wishlist: [4, 15, 23, 32],
+      myServer: null
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("poke_dai_chien_tracker_v1");
+        if (!raw) return structuredClone(DEFAULT_STATE);
+        const p = JSON.parse(raw);
+        return {
+          anchors: { ...DEFAULT_STATE.anchors, ...(p.anchors || {}) },
+          wishlist: Array.isArray(p.wishlist) ? p.wishlist : [...DEFAULT_STATE.wishlist],
+          myServer: p.myServer ?? null
+        };
+      } catch { return structuredClone(DEFAULT_STATE); }
+    }
+    function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {} }
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      const btn = document.getElementById("btnThemeToggle");
+      if (btn) btn.textContent = t === "dark" ? "☀️ Sáng" : "🌙 Tối";
+      try { localStorage.setItem(THEME_KEY, t); } catch {}
+    }
+    const urlP = new URLSearchParams(location.search);
+    applyTheme((urlP.get("theme") === "dark" || urlP.get("theme") === "light") ? urlP.get("theme") : (localStorage.getItem(THEME_KEY) || "light"));
+
+    let state = loadState();
+    const todayDate = (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); })();
+    let calYear = todayDate.getFullYear();
+    let calMonth = todayDate.getMonth();
+    let selectedDateStr = toDateStr(todayDate);
+    let activeLens = ["x10", "events", "weather", "server", "wish"].includes(urlP.get("lens")) ? urlP.get("lens") : "x10";
+    let weatherTypeFilter = "";
+    let calQuery = "";
+    let weeksQuery = "";
+    let weeksWishOnly = false;
+    let selectedType = null;
+
+    // Date & Schedule Engine
+    const mod = (n, m) => ((n % m) + m) % m;
+    function toDateStr(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
+    function parseDateStr(s) { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
+    function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+    function daysBetween(a, b) { return Math.round((Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) / 86400000); }
+
+    const DOW_FULL = ["Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+    const DOW_SHORT = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
+    const fmtDDMM = d => `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
+    const fmtFull = d => `${DOW_FULL[d.getDay()]}, ${fmtDDMM(d)}/${d.getFullYear()}`;
+    const stripVN = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
+
+    function getX10IndexOn(d) { return mod(state.anchors.x10Index + daysBetween(parseDateStr(state.anchors.x10Date), d), 70); }
+    function getX10ColDow(colIdx) { return mod(parseDateStr(state.anchors.x10Date).getDay() + (colIdx - (state.anchors.x10Index % 7)), 7); }
+
+    function getWeeklyMiracleOnFriday(friDate) {
+      const weeks = Math.round(daysBetween(parseDateStr(state.anchors.weeklyFriday), friDate) / 7);
+      return WEEKLY_MIRACLE[mod(state.anchors.weeklyIndex + weeks, 4)];
+    }
+    // T6 -> T2 (4 days)
+    function getWeeklyMiracleOnDay(d) {
+      const dow = d.getDay();
+      if (dow !== 5 && dow !== 6 && dow !== 0 && dow !== 1) return null;
+      const fri = addDays(d, -(dow === 5 ? 0 : dow === 6 ? 1 : dow === 0 ? 2 : 3));
+      return { ...getWeeklyMiracleOnFriday(fri), fri, mon: addDays(fri, 3) };
+    }
+    function getNextOrCurrentFriday(d) {
+      const dow = d.getDay();
+      const active = dow === 5 || dow === 6 || dow === 0 || dow === 1;
+      const fri = dow === 5 ? d : dow === 6 ? addDays(d, -1) : dow === 0 ? addDays(d, -2) : dow === 1 ? addDays(d, -3) : addDays(d, 5 - dow);
+      return { fri, mon: addDays(fri, 3), daysUntil: active ? 0 : (5 - dow), active };
+    }
+
+    // x2: T7 & CN (2 days)
+    function getX2OnWeekendDay(d) {
+      const dow = d.getDay();
+      if (dow !== 6 && dow !== 0) return null;
+      const sat = dow === 6 ? d : addDays(d, -1);
+      const weeks = Math.round(daysBetween(parseDateStr(state.anchors.x2Saturday), sat) / 7);
+      const idx = mod(state.anchors.x2Index + weeks, 4);
+      return { idx, name: X2_CYCLE[idx], sat };
+    }
+    function getUpcomingX2(d) {
+      const dow = d.getDay();
+      const sat = dow === 6 ? d : dow === 0 ? addDays(d, -1) : addDays(d, 6 - dow);
+      const daysUntil = (dow === 6 || dow === 0) ? 0 : (6 - dow);
+      const weeks = Math.round(daysBetween(parseDateStr(state.anchors.x2Saturday), sat) / 7);
+      const idx = mod(state.anchors.x2Index + weeks, 4);
+      return { idx, name: X2_CYCLE[idx], sat, sun: addDays(sat, 1), daysUntil, active: daysUntil === 0 };
+    }
+
+    // Vòng Công Viên: T6 -> T2 (4 days)
+    function getFriSunOnDay(d) {
+      const dow = d.getDay();
+      if (dow !== 5 && dow !== 6 && dow !== 0 && dow !== 1) return null;
+      const fri = addDays(d, -(dow === 5 ? 0 : dow === 6 ? 1 : dow === 0 ? 2 : 3));
+      const weeks = Math.round(daysBetween(parseDateStr(state.anchors.friSunFriday), fri) / 7);
+      const idx = mod(state.anchors.friSunIndex + weeks, 4);
+      return { idx, name: FRISUN_CYCLE[idx], fri, mon: addDays(fri, 3) };
+    }
+    function getUpcomingFriSun(d) {
+      const dow = d.getDay();
+      const active = dow === 5 || dow === 6 || dow === 0 || dow === 1;
+      const fri = dow === 5 ? d : dow === 6 ? addDays(d, -1) : dow === 0 ? addDays(d, -2) : dow === 1 ? addDays(d, -3) : addDays(d, 5 - dow);
+      const weeks = Math.round(daysBetween(parseDateStr(state.anchors.friSunFriday), fri) / 7);
+      const idx = mod(state.anchors.friSunIndex + weeks, 4);
+      return { idx, name: FRISUN_CYCLE[idx], fri, mon: addDays(fri, 3), daysUntil: active ? 0 : (5 - dow), active };
+    }
+
+    function getNewServerOnDay(d) {
+      const diff = daysBetween(parseDateStr(state.anchors.newServerDate), d);
+      if (mod(diff, 2) !== 0) return null;
+      const num = state.anchors.newServerNum + Math.round(diff / 2);
+      return num > 0 ? { num, label: `S${num}`, time: "10:00", cluster: findCluster(num) } : null;
+    }
+    function getUpcomingNewServer(d) {
+      const s = getNewServerOnDay(d);
+      if (s) return { ...s, date: d, daysUntil: 0 };
+      const tmr = addDays(d, 1);
+      return { ...getNewServerOnDay(tmr), date: tmr, daysUntil: 1 };
+    }
+
+    function getWeatherOnDay(d) {
+      const key = `${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      return (weatherCache.byMD[key] || []).map(([typeId, time]) => ({
+        typeId, time, start: time.split("-")[0] || time,
+        ...(WEATHER_TYPES[typeId] || { name: "Thời tiết", icon: "🌦" })
+      }));
+    }
+    function getMonthlyGroup(m) { return MONTHLY_MIRACLE[(m - 1) % 3]; }
+    function findCluster(n) { const v = Number(n); return v > 0 ? SERVER_CLUSTERS.find(c => v >= c.start && v <= c.end) || null : null; }
+
+    function getDaySummary(d) {
+      return {
+        x10: X10_SLOTS[getX10IndexOn(d)],
+        miracle: getWeeklyMiracleOnDay(d),
+        x2: getX2OnWeekendDay(d),
+        frisun: getFriSunOnDay(d),
+        monthly: getMonthlyGroup(d.getMonth() + 1),
+        weather: getWeatherOnDay(d),
+        newServer: getNewServerOnDay(d)
+      };
+    }
+
+    function imgTag(src, fallback, alt, extraClass = "") {
+      return `<img src="${src}" alt="${alt}" class="${extraClass}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'" />`;
+    }
+    function showToast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg; el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), 2300);
+    }
+
+    // =========================================================================
+    // RENDERING
+    // =========================================================================
+    function renderAll() {
+      const todayX10 = X10_SLOTS[getX10IndexOn(todayDate)];
+      document.getElementById("todayQuickPill").innerHTML =
+        `${imgTag(todayX10.art, todayX10.fallback, todayX10.name)}<span>Nay ${fmtDDMM(todayDate)}: <strong>${todayX10.name}</strong></span>`;
+
+      const pill = document.getElementById("myServerPill");
+      if (state.myServer) {
+        const c = findCluster(state.myServer);
+        pill.style.display = "inline-block";
+        pill.textContent = c ? `S${state.myServer} • ${c.id}` : `S${state.myServer}`;
+      } else { pill.style.display = "none"; }
+
+      renderCalendar();
+      renderSidePanel();
+      renderWeeksView();
+      renderRefView();
+    }
+
+    function renderCalendar() {
+      ensureWeatherMonth(calMonth + 1);
+      document.getElementById("calMonthTitle").textContent = `Tháng ${calMonth + 1}, ${calYear}`;
+
+      document.querySelectorAll("#lensBar .lens-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.lens === activeLens);
+      });
+      const wBar = document.getElementById("weatherSubbar");
+      wBar.classList.toggle("show", activeLens === "weather");
+      wBar.querySelectorAll(".fchip").forEach(btn => {
+        btn.className = "fchip" + (btn.dataset.wtype === weatherTypeFilter ? " on-teal" : "");
+      });
+
+      const showWkCol = (activeLens === "x10");
+      document.getElementById("calWdRow").classList.toggle("no-wkcol", !showWkCol);
+      document.getElementById("wkColHeader").style.display = showWkCol ? "block" : "none";
+
+      // Quick Jump on search
+      const q = stripVN(calQuery.trim());
+      const qj = document.getElementById("quickJump");
+      if (q) {
+        const todayIdx = getX10IndexOn(todayDate);
+        const found = X10_SLOTS.filter(s => stripVN(s.name).includes(q))
+          .map(s => ({ s, daysUntil: mod(s.index - todayIdx, 70), nextDate: addDays(todayDate, mod(s.index - todayIdx, 70)) }))
+          .sort((a, b) => a.daysUntil - b.daysUntil);
+        qj.classList.add("show");
+        qj.innerHTML = found.length
+          ? `<span style="font-size:0.73rem;font-weight:800;color:var(--ev-x2-text)">Gần nhất:</span>` +
+            found.slice(0, 5).map(({ s, daysUntil, nextDate }) => `
+              <button class="jump-btn" onclick="jumpToDate('${toDateStr(nextDate)}')">
+                ${imgTag(s.art, s.fallback, s.name)}
+                <span><strong>${s.name}</strong> ${daysUntil === 0 ? "NAY" : fmtDDMM(nextDate)}</span>
+              </button>
+            `).join("")
+          : `<span style="font-size:0.74rem;font-weight:700;color:var(--ev-x2-text)">Đang lọc "${calQuery.replace(/</g, "&lt;")}"...</span>`;
+      } else { qj.classList.remove("show"); }
+
+      const firstOfMonth = new Date(calYear, calMonth, 1);
+      const startOffset = mod(firstOfMonth.getDay() - 1, 7);
+      const gridStart = addDays(firstOfMonth, -startOffset);
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+      const totalWeeks = (startOffset + daysInMonth > 35) ? 6 : 5;
+      const todayStr = toDateStr(todayDate);
+
+      const container = document.getElementById("calWeeksContainer");
+      container.style.gridTemplateRows = `repeat(${totalWeeks}, minmax(0, 1fr))`;
+
+      let html = "";
+      for (let w = 0; w < totalWeeks; w++) {
+        const weekFri = addDays(gridStart, w * 7 + 4);
+        const weekSat = addDays(gridStart, w * 7 + 5);
+        const weekMiracle = getWeeklyMiracleOnFriday(weekFri);
+        const weekX2 = getX2OnWeekendDay(weekSat);
+        const weekPark = getFriSunOnDay(weekFri);
+
+        let rowHtml = "";
+        if (showWkCol) {
+          const friStr = toDateStr(weekFri);
+          const satStr = toDateStr(weekSat);
+          const t6t2Dates = [0, 1, 2, 3].map(k => toDateStr(addDays(weekFri, k))).join(",");
+          const t7cnDates = [0, 1].map(k => toDateStr(addDays(weekSat, k))).join(",");
+          rowHtml += `
+            <div class="wk-summary-cell">
+              <div class="ws-pill ws-miracle" onmouseenter="hlDates('${t6t2Dates}','hl-miracle')" onmouseleave="clearHl()" onclick="selectCalendarDay('${friStr}', false)" title="Đổi Kỳ Tích T6–T2 (${fmtDDMM(weekFri)}–${fmtDDMM(addDays(weekFri, 3))}): ${weekMiracle.short}">
+                <span class="ws-lbl">✨ ${weekMiracle.tag}</span><span class="ws-days">T6–T2</span>
+              </div>
+              <div class="ws-pill ws-x2" onmouseenter="hlDates('${t7cnDates}','hl-x2')" onmouseleave="clearHl()" onclick="selectCalendarDay('${satStr}', false)" title="x2 Thứ 7 & CN (${fmtDDMM(weekSat)}–${fmtDDMM(addDays(weekSat, 1))})">
+                <span class="ws-lbl">⚡ x2 ${weekX2.name}</span><span class="ws-days">T7–CN</span>
+              </div>
+              <div class="ws-pill ws-park" onmouseenter="hlDates('${t6t2Dates}','hl-park')" onmouseleave="clearHl()" onclick="selectCalendarDay('${friStr}', false)" title="Vòng Công Viên T6–T2 (${fmtDDMM(weekFri)}–${fmtDDMM(addDays(weekFri, 3))})">
+                <span class="ws-lbl">🎡 ${weekPark.name}</span><span class="ws-days">T6–T2</span>
+              </div>
+            </div>
+          `;
+        }
+
+        for (let c = 0; c < 7; c++) {
+          const d = addDays(gridStart, w * 7 + c);
+          const ds = toDateStr(d);
+          const isOther = d.getMonth() !== calMonth;
+          const isToday = ds === todayStr;
+          const isSelected = ds === selectedDateStr;
+          const info = getDaySummary(d);
+          const isStarred = state.wishlist.includes(info.x10.index);
+
+          const searchableText = stripVN([
+            info.x10.name,
+            info.miracle ? `${info.miracle.title} ${info.miracle.short} ky tich` : "",
+            info.x2 ? `x2 ${info.x2.name}` : "",
+            info.frisun ? info.frisun.name : "",
+            info.newServer ? `${info.newServer.label} server` : "",
+            info.weather.map(x => `${x.name} ${x.time}`).join(" ")
+          ].join(" "));
+
+          const matchesSearch = !q || searchableText.includes(q);
+          let dim = false;
+          let hi = Boolean(q && matchesSearch);
+          if (q && !matchesSearch) dim = true;
+          if (activeLens === "wish" && !isStarred) dim = true;
+          if (activeLens === "weather" && weatherTypeFilter) {
+            if (!info.weather.some(x => String(x.typeId) === weatherTypeFilter)) dim = true; else hi = true;
+          }
+          if (activeLens === "server" && !info.newServer) dim = true;
+          if (activeLens === "events" && !info.miracle && !info.x2 && !info.frisun) dim = true;
+
+          const cls = ["day-cell", isOther ? "other-month" : "", isToday ? "is-today" : "", isSelected ? "is-selected" : "", dim ? "is-dimmed" : "", hi ? "is-match" : ""].filter(Boolean).join(" ");
+
+          let bodyHtml = "";
+          if (activeLens === "x10" || activeLens === "wish") {
+            bodyHtml = `
+              <div class="cell-poke">
+                <div class="poke-pedestal">${imgTag(info.x10.art, info.x10.fallback, info.x10.name)}</div>
+                <div class="cell-poke-name" title="${info.x10.name}">${info.x10.name}</div>
+              </div>
+            `;
+          } else if (activeLens === "events") {
+            const evs = [];
+            if (info.miracle) evs.push(`<div class="ce-pill ws-miracle" title="Đổi Kỳ Tích T6–T2">✨ ${info.miracle.tag}</div>`);
+            if (info.x2) evs.push(`<div class="ce-pill ws-x2" title="x2 T7–CN">⚡ x2 ${info.x2.name}</div>`);
+            if (info.frisun) evs.push(`<div class="ce-pill ws-park" title="Vòng Công Viên T6–T2">🎡 ${info.frisun.name}</div>`);
+            bodyHtml = `<div class="ce-stack">${evs.length ? evs.join("") : `<div style="text-align:center;font-size:0.7rem;color:var(--text-muted)">—</div>`}</div>`;
+          } else if (activeLens === "weather") {
+            const listW = weatherTypeFilter ? info.weather.filter(x => String(x.typeId) === weatherTypeFilter) : info.weather;
+            if (!listW.length) {
+              bodyHtml = `<div class="cell-focus"><span style="font-size:0.7rem;color:var(--text-muted)">—</span></div>`;
+            } else if (listW.length === 1) {
+              bodyHtml = `
+                <div class="cell-focus">
+                  <div class="cw-icon">${listW[0].icon}</div>
+                  <div class="cw-name">${listW[0].name}</div>
+                  <div class="cw-time">${listW[0].time}</div>
+                </div>
+              `;
+            } else {
+              const sameType = listW.every(x => x.typeId === listW[0].typeId);
+              if (sameType) {
+                bodyHtml = `
+                  <div class="cell-focus" style="gap:2px">
+                    <div class="cw-name">${listW[0].icon} ${listW[0].name}</div>
+                    ${listW.map(x => `<div class="cw-time">${x.time}</div>`).join("")}
+                  </div>
+                `;
+              } else {
+                bodyHtml = `
+                  <div class="cw-multi">
+                    ${listW.map(x => `
+                      <div class="cw-slot" title="${x.name}: ${x.time}">
+                        <span class="cw-slot-n">${x.icon} ${x.name}</span>
+                        <span class="cw-slot-t">${x.time}</span>
+                      </div>
+                    `).join("")}
+                  </div>
+                `;
+              }
+            }
+          } else if (activeLens === "server") {
+            bodyHtml = info.newServer
+              ? `<div class="cell-focus">
+                  <div class="cs-num">${info.newServer.label}</div>
+                  <div class="cs-meta">10:00 • ${info.newServer.cluster ? info.newServer.cluster.id : "Mới"}</div>
+                </div>`
+              : `<div class="cell-focus"><span style="font-size:0.7rem;color:var(--text-muted)">—</span></div>`;
+          }
+
+          rowHtml += `
+            <div class="${cls}" data-date="${ds}" onclick="selectCalendarDay('${ds}', ${isOther})">
+              <div class="day-head">
+                <span class="day-num">${d.getDate()}${d.getDate() === 1 ? `/${d.getMonth() + 1}` : ""}${isToday ? `<span class="today-dot">NAY</span>` : ""}</span>
+                <button class="star-btn ${isStarred ? "on" : ""}" onclick="toggleWishlist(${info.x10.index}, event)">${isStarred ? "★" : "☆"}</button>
+              </div>
+              ${bodyHtml}
+            </div>
+          `;
+        }
+
+        html += `<div class="cal-week-row ${showWkCol ? "" : "no-wkcol"}">${rowHtml}</div>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function renderSidePanel() {
+      const d = parseDateStr(selectedDateStr);
+      const diff = daysBetween(todayDate, d);
+      const info = getDaySummary(d);
+      const isStarred = state.wishlist.includes(info.x10.index);
+      const relBadge = diff === 0 ? `<span class="pill pill-gold">HÔM NAY</span>`
+        : diff > 0 ? `<span class="pill pill-blue">Còn ${diff}n</span>`
+        : `<span class="pill pill-muted">${Math.abs(diff)}n trước</span>`;
+
+      const todayIdx = getX10IndexOn(todayDate);
+      const nextDays = mod(info.x10.index - todayIdx, 70);
+      const nextDate = addDays(todayDate, nextDays);
+      const nextDate2 = addDays(todayDate, nextDays + 70);
+
+      let extraBoxes = "";
+      if (info.miracle) {
+        extraBoxes += `
+          <div class="info-box" style="border-color:var(--ev-miracle-border)">
+            <div class="info-box-head">
+              <span style="color:var(--ev-miracle-text)">✨ Đổi Kỳ Tích (T6–T2)</span>
+              <span class="pill pill-miracle">${fmtDDMM(info.miracle.fri)}–${fmtDDMM(info.miracle.mon)}</span>
+            </div>
+            <div class="miracle-imgs">${info.miracle.pets.map(p => imgTag(p.img, p.fb, p.name, p.cls || "")).join("")}</div>
+            <div style="font-weight:800;font-size:0.79rem">${info.miracle.short}</div>
+          </div>
+        `;
+      }
+
+      if (info.x2 || info.frisun) {
+        extraBoxes += `
+          <div class="info-box" style="border-color:var(--ev-park-border)">
+            <div class="info-box-head">
+              <span>🎡 Sự Kiện Tuần</span>
+              <button class="gbtn" style="padding:1px 6px;font-size:0.66rem;box-shadow:none" onclick="openCalibModal()">Chỉnh</button>
+            </div>
+            ${info.x2 ? `<div class="mini-row"><span>⚡ x2 (T7–CN)</span><strong style="color:var(--ev-x2-text)">x2 ${info.x2.name}</strong></div>` : ""}
+            ${info.frisun ? `<div class="mini-row"><span>🎡 Công Viên (T6–T2)</span><strong style="color:var(--ev-park-text)">${info.frisun.name}</strong></div>` : ""}
+          </div>
+        `;
+      }
+
+      if (info.newServer) {
+        extraBoxes += `
+          <div class="info-box" style="border-color:var(--ev-server-border)">
+            <div class="info-box-head">
+              <span style="color:var(--ev-server-text)">🆕 Mở Server Mới</span>
+              <span class="pill pill-green">10:00 sáng</span>
+            </div>
+            <div style="font-weight:900;color:var(--ev-server-text)">${info.newServer.label} <span style="font-weight:600;color:var(--text-secondary)">${info.newServer.cluster ? `• Cụm ${info.newServer.cluster.id}` : ""}</span></div>
+          </div>
+        `;
+      }
+
+      const ttLink = `https://thangtinshop.com/thoi-tiet/detail/${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}`;
+      extraBoxes += `
+        <div class="info-box" style="border-color:var(--ev-weather-border)">
+          <div class="info-box-head">
+            <span style="color:var(--ev-weather-text)">🌦 Thời Tiết Mê Cung</span>
+            <a href="${ttLink}" target="_blank" rel="noopener" style="font-size:0.7rem;font-weight:800;color:#2563eb;text-decoration:none">Xem Pet ↗</a>
+          </div>
+          ${info.weather.length
+            ? info.weather.map(w => `<div class="mini-row"><span>${w.icon} ${w.name}</span><strong style="color:var(--ev-weather-text)">${w.time}</strong></div>`).join("")
+            : `<div style="font-size:0.74rem;color:var(--text-muted)">${weatherCache.months.has(d.getMonth() + 1) ? "Không có thời tiết đặc biệt" : "Đang tải thời tiết..."}</div>`
+          }
+        </div>
+      `;
+
+      // Wishlist compact with next 2 occurrences
+      const wishList = state.wishlist
+        .map(idx => {
+          const daysUntil = mod(idx - todayIdx, 70);
+          const nextDate1 = addDays(todayDate, daysUntil);
+          const nextDate2 = addDays(todayDate, daysUntil + 70);
+          return { s: X10_SLOTS[idx], daysUntil, nextDate1, nextDate2 };
+        })
+        .sort((a, b) => a.daysUntil - b.daysUntil);
+
+      document.getElementById("sidePanel").innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+          <strong style="font-size:0.9rem">${fmtFull(d)}</strong>
+          ${relBadge}
+        </div>
+
+        <div class="insp-hero">
+          ${imgTag(info.x10.art, info.x10.fallback, info.x10.name)}
+          <div style="min-width:0;flex:1">
+            <h3>${info.x10.name}</h3>
+            <div class="sub">Rút x10 • T${info.x10.week} (${info.x10.dayInWeek}/7)</div>
+            <div style="font-size:0.69rem;color:var(--text-muted);margin-top:2px">Lần tới: ${nextDays === 0 ? "Hôm nay" : fmtDDMM(nextDate)} • ${fmtDDMM(nextDate2)}</div>
+            <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap">
+              <button class="gbtn ${isStarred ? "gbtn-gold" : ""}" style="padding:3px 7px;font-size:0.7rem" onclick="toggleWishlist(${info.x10.index})">${isStarred ? "★ Đã ghim" : "☆ Ghim"}</button>
+              <button class="gbtn" style="padding:3px 7px;font-size:0.7rem" onclick="setX10AnchorHere(${info.x10.index}, '${selectedDateStr}')">🎯 Đặt mốc</button>
+            </div>
+          </div>
+        </div>
+
+        ${extraBoxes}
+
+        <div class="info-box">
+          <div class="info-box-head">
+            <span>🗓️ Kỳ Tích Tháng ${d.getMonth() + 1}</span>
+            <span class="pill pill-green">${info.monthly.label}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            ${info.monthly.icons.map(s => `<img src="${s}" style="width:28px;height:28px;border-radius:6px" alt="" />`).join("")}
+            <span style="font-size:0.73rem;color:var(--text-muted)">Cố định nhóm tháng ${info.monthly.months.join(", ")}</span>
+          </div>
+        </div>
+
+        <div class="info-box" style="margin-bottom:0">
+          <div class="info-box-head">
+            <span>⭐ Pet đang săn (${wishList.length})</span>
+            <button class="gbtn gbtn-gold" style="padding:2px 8px;font-size:0.69rem;box-shadow:none" onclick="openWishPicker()">+ Thêm Pet</button>
+          </div>
+          <div class="wish-chips">
+            ${wishList.length
+              ? wishList.map(({ s, daysUntil, nextDate1, nextDate2 }) => `
+                  <div class="wish-row" onclick="jumpToDate('${toDateStr(nextDate1)}')">
+                    ${imgTag(s.art, s.fallback, s.name)}
+                    <div style="min-width:0;flex:1">
+                      <div class="wn">${s.name}</div>
+                      <div class="ww">Lần 1: ${daysUntil === 0 ? `🔥 HÔM NAY (${fmtDDMM(nextDate1)})` : `${DOW_SHORT[nextDate1.getDay()]} ${fmtDDMM(nextDate1)} (còn ${daysUntil}n)`}</div>
+                      <div class="ww2">
+                        <span>Lần 2:</span>
+                        <span class="wish-date-link" title="Bấm để nhảy tới lần 2" onclick="event.stopPropagation();jumpToDate('${toDateStr(nextDate2)}')">${DOW_SHORT[nextDate2.getDay()]} ${fmtDDMM(nextDate2)}/${nextDate2.getFullYear()}</span>
+                      </div>
+                    </div>
+                    <button class="wd" title="Bỏ ghim" onclick="toggleWishlist(${s.index}, event)">✕</button>
+                  </div>
+                `).join("")
+              : `<div style="font-size:0.74rem;color:var(--text-muted);text-align:center;padding:8px">Chưa có Pet nào. Bấm <strong>+ Thêm Pet</strong> hoặc dấu ☆ trên lịch!</div>`
+            }
+          </div>
+        </div>
+      `;
+    }
+
+    function renderWeeksView() {
+      const todayIdx = getX10IndexOn(todayDate);
+      const currWeek = Math.floor(todayIdx / 7) + 1;
+      const todayCol = todayIdx % 7;
+
+      let headHtml = `<div class="cal-wd">Tuần</div>`;
+      for (let c = 0; c < 7; c++) headHtml += `<div class="cal-wd ${c === todayCol ? "wknd" : ""}">${DOW_FULL[getX10ColDow(c)]}</div>`;
+      document.getElementById("x10HeadRow").innerHTML = headHtml;
+      document.getElementById("btnWeeksWishOnly").className = "fchip" + (weeksWishOnly ? " on-gold" : "");
+      const q = stripVN(weeksQuery.trim());
+
+      let bodyHtml = "";
+      for (let w = 0; w < 10; w++) {
+        const isCurr = (w + 1) === currWeek;
+        bodyHtml += `<div class="x10-row"><div class="x10-wk ${isCurr ? "curr" : ""}">T${w + 1}${isCurr ? `<small style="font-size:0.62rem">Nay</small>` : ""}</div>`;
+        for (let c = 0; c < 7; c++) {
+          const idx = w * 7 + c;
+          const s = X10_SLOTS[idx];
+          const daysUntil = mod(idx - todayIdx, 70);
+          const nextDate = addDays(todayDate, daysUntil);
+          const isStarred = state.wishlist.includes(idx);
+          const dim = (q && !stripVN(s.name).includes(q)) || (weeksWishOnly && !isStarred);
+          bodyHtml += `
+            <div class="x10-tile ${daysUntil === 0 ? "today" : ""} ${dim ? "dim" : ""}" onclick="jumpToDate('${toDateStr(nextDate)}', true)">
+              <button class="star-btn ${isStarred ? "on" : ""}" style="position:absolute;top:4px;right:4px" onclick="toggleWishlist(${idx}, event)">${isStarred ? "★" : "☆"}</button>
+              ${imgTag(s.art, s.fallback, s.name)}
+              <div class="nm">${s.name}</div>
+              <div class="dt">${daysUntil === 0 ? "NAY" : `${fmtDDMM(nextDate)} (${daysUntil}n)`}</div>
+            </div>
+          `;
+        }
+        bodyHtml += `</div>`;
+      }
+      document.getElementById("x10BodyRows").innerHTML = bodyHtml;
+    }
+
+    function renderRefView() {
+      const { fri, daysUntil } = getNextOrCurrentFriday(todayDate);
+      const currM = getWeeklyMiracleOnFriday(fri);
+      document.getElementById("refWeeklyQuad").innerHTML = [0, 1, 3, 2].map(idx => {
+        const g = WEEKLY_MIRACLE[idx];
+        const isAct = g.id === currM.id;
+        const dt = addDays(fri, mod(idx - currM.id, 4) * 7);
+        return `
+          <div class="cycle-box ${isAct ? "active" : ""}">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <strong style="font-size:0.82rem">${g.title}</strong>
+              <span class="pill ${isAct ? "pill-gold" : "pill-muted"}">${fmtDDMM(dt)}–${fmtDDMM(addDays(dt, 3))}</span>
+            </div>
+            <div class="miracle-imgs">${g.pets.map(p => imgTag(p.img, p.fb, p.name, p.cls || "")).join("")}</div>
+            <div style="font-size:0.75rem;font-weight:700;color:var(--text-secondary)">${g.short}</div>
+            ${!isAct
+              ? `<button class="gbtn" style="padding:3px 7px;font-size:0.7rem;margin-top:auto" onclick="setWeeklyThisFriday(${idx})">Đặt làm đợt này</button>`
+              : `<span style="font-size:0.72rem;color:var(--poke-red);font-weight:800;margin-top:auto">✓ ${daysUntil === 0 ? "Đang diễn ra" : "Đợt kế tiếp"}</span>`}
+          </div>
+        `;
+      }).join("");
+
+      const x2 = getUpcomingX2(todayDate);
+      document.getElementById("refX2List").innerHTML = X2_CYCLE.map((name, i) => `
+        <div class="lin-card ${i === x2.idx ? "active" : ""}" onclick="setX2ThisWeekend(${i})">
+          <div style="font-size:0.65rem;color:var(--text-muted)">Bước ${i + 1}</div>
+          <div style="font-size:0.84rem;font-weight:900;margin:2px 0">${name}</div>
+          <div style="font-size:0.7rem;color:#2563eb;font-weight:800">T7 ${fmtDDMM(addDays(x2.sat, mod(i - x2.idx, 4) * 7))}</div>
+        </div>
+      `).join("");
+      document.getElementById("refX2Note").textContent = state.anchors.x2Calibrated
+        ? `✓ Đã đồng bộ: T7–CN (${fmtDDMM(x2.sat)}–${fmtDDMM(x2.sun)}) là x2 ${x2.name}.`
+        : `💡 Bấm vào ô đúng với T7–CN tuần này để đồng bộ.`;
+
+      const fs = getUpcomingFriSun(todayDate);
+      document.getElementById("refFriSunList").innerHTML = FRISUN_CYCLE.map((name, i) => `
+        <div class="lin-card ${i === fs.idx ? "active" : ""}" onclick="setFriSunThisWeekend(${i})">
+          <div style="font-size:0.65rem;color:var(--text-muted)">Bước ${i + 1}</div>
+          <div style="font-size:0.84rem;font-weight:900;margin:2px 0">${name}</div>
+          <div style="font-size:0.7rem;color:var(--ev-park-text);font-weight:800">T6 ${fmtDDMM(addDays(fs.fri, mod(i - fs.idx, 4) * 7))}</div>
+        </div>
+      `).join("");
+      document.getElementById("refFriSunNote").textContent = state.anchors.friSunCalibrated
+        ? `✓ Đã đồng bộ: T6–T2 (${fmtDDMM(fs.fri)}–${fmtDDMM(fs.mon)}) là ${fs.name}.`
+        : `💡 Bấm vào ô đúng với T6–T2 tuần này để đồng bộ.`;
+
+      const upSrv = getUpcomingNewServer(todayDate);
+      let srvHtml = "";
+      for (let i = 0; i < 12; i++) {
+        const dt = addDays(upSrv.date, i * 2);
+        srvHtml += `<div class="srv-chip ${i === 0 && upSrv.daysUntil === 0 ? "hi" : ""}" style="cursor:pointer" onclick="jumpToDate('${toDateStr(dt)}', true)"><strong>S${upSrv.num + i}</strong><span>${fmtDDMM(dt)}</span></div>`;
+      }
+      document.getElementById("newServerSchedule").innerHTML = srvHtml;
+
+      document.getElementById("btnClearType").style.display = selectedType ? "inline-flex" : "none";
+      document.getElementById("refCubes").innerHTML = CUBE_GROUPS.map(g => `
+        <div class="cube-row ${selectedType && g.types.includes(selectedType) ? "match" : ""}">
+          <div class="cube-imgs">${g.icons.map(s => `<img src="${s}" alt="" />`).join("")}</div>
+          <div class="type-tags">${g.types.map(t => `<button class="type-tag ${selectedType === t ? "sel" : ""}" onclick="toggleType('${t}')">${t}</button>`).join("")}</div>
+        </div>
+      `).join("");
+
+      renderServerGrid(state.myServer ? findCluster(state.myServer)?.id : null);
+    }
+
+    function renderServerGrid(hiId) {
+      document.getElementById("srvGrid").innerHTML = SERVER_CLUSTERS.map(c =>
+        `<div class="srv-chip ${c.id === hiId ? "hi" : ""}" id="srv-${c.id}"><strong>${c.id}</strong><span>S${c.start}–${c.end}</span></div>`
+      ).join("");
+    }
+
+    // Interactions
+    window.hlDates = function(csv, clsName) {
+      clearHl();
+      csv.split(",").forEach(ds => {
+        const el = document.querySelector(`.day-cell[data-date="${ds}"]`);
+        if (el) el.classList.add(clsName);
+      });
+    };
+    window.clearHl = function() {
+      document.querySelectorAll(".day-cell.hl-miracle, .day-cell.hl-x2, .day-cell.hl-park")
+        .forEach(el => el.classList.remove("hl-miracle", "hl-x2", "hl-park"));
+    };
+    window.switchView = function(name) {
+      document.querySelectorAll(".nav-tab").forEach(b => b.classList.toggle("active", b.dataset.view === name));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.toggle("active", p.id === `view-${name}`));
+    };
+    window.selectCalendarDay = function(ds, isOther) {
+      selectedDateStr = ds;
+      if (isOther) { const d = parseDateStr(ds); calYear = d.getFullYear(); calMonth = d.getMonth(); }
+      renderCalendar(); renderSidePanel();
+    };
+    window.jumpToDate = function(ds, goToCal = false) {
+      const d = parseDateStr(ds);
+      calYear = d.getFullYear(); calMonth = d.getMonth(); selectedDateStr = ds;
+      if (goToCal) switchView("calendar");
+      renderCalendar(); renderSidePanel();
+    };
+    window.toggleWishlist = function(idx, ev) {
+      if (ev) ev.stopPropagation();
+      const pos = state.wishlist.indexOf(idx);
+      const slot = X10_SLOTS[idx];
+      if (pos >= 0) {
+        state.wishlist.splice(pos, 1);
+        showToast(`Đã bỏ ghim ${slot.name}`);
+      } else {
+        state.wishlist.push(idx);
+        const todayIdx = getX10IndexOn(todayDate);
+        const d1 = mod(idx - todayIdx, 70);
+        const dt1 = addDays(todayDate, d1);
+        const dt2 = addDays(todayDate, d1 + 70);
+        showToast(`⭐ ${slot.name} — Lần 1: ${d1 === 0 ? "Hôm nay" : fmtDDMM(dt1)} • Lần 2: ${fmtDDMM(dt2)}/${dt2.getFullYear()}`);
+      }
+      saveState();
+      renderAll();
+      if (document.getElementById("wishPickerModal").classList.contains("open")) renderWishPicker();
+    };
+
+    window.openWishPicker = function() {
+      const inp = document.getElementById("wishPickerSearch");
+      inp.value = "";
+      renderWishPicker();
+      document.getElementById("wishPickerModal").classList.add("open");
+      setTimeout(() => inp.focus(), 50);
+    };
+
+    function renderWishPicker() {
+      const q = stripVN(document.getElementById("wishPickerSearch").value.trim());
+      const todayIdx = getX10IndexOn(todayDate);
+      const list = X10_SLOTS
+        .filter(s => !q || stripVN(s.name).includes(q))
+        .map(s => {
+          const d1 = mod(s.index - todayIdx, 70);
+          return { s, d1, dt1: addDays(todayDate, d1), dt2: addDays(todayDate, d1 + 70), picked: state.wishlist.includes(s.index) };
+        })
+        .sort((a, b) => Number(b.picked) - Number(a.picked) || a.d1 - b.d1);
+
+      document.getElementById("wishPickerGrid").innerHTML = list.map(({ s, d1, dt1, dt2, picked }) => `
+        <button class="picker-item ${picked ? "picked" : ""}" onclick="toggleWishlist(${s.index})">
+          ${imgTag(s.art, s.fallback, s.name)}
+          <div style="min-width:0;flex:1">
+            <div class="pn">${picked ? "★ " : ""}${s.name}</div>
+            <div class="pd">L1: ${d1 === 0 ? "Hôm nay" : fmtDDMM(dt1)} • L2: ${fmtDDMM(dt2)}</div>
+          </div>
+        </button>
+      `).join("") || `<div style="grid-column:1/-1;text-align:center;font-size:0.8rem;color:var(--text-muted);padding:14px">Không tìm thấy Pokémon nào.</div>`;
+    }
+    window.setX10AnchorHere = function(slotIdx, ds) {
+      state.anchors.x10Date = ds; state.anchors.x10Index = slotIdx;
+      saveState(); renderAll(); showToast(`🎯 Đã chốt ${X10_SLOTS[slotIdx].name} vào ${fmtDDMM(parseDateStr(ds))}`);
+    };
+    window.setWeeklyThisFriday = function(idx) {
+      const { fri } = getNextOrCurrentFriday(todayDate);
+      state.anchors.weeklyFriday = toDateStr(fri); state.anchors.weeklyIndex = idx;
+      saveState(); renderAll(); showToast(`✓ Đã chốt Kỳ Tích ${fmtDDMM(fri)} là ${WEEKLY_MIRACLE[idx].short}`);
+    };
+    window.setX2ThisWeekend = function(idx) {
+      const x2 = getUpcomingX2(todayDate);
+      state.anchors.x2Saturday = toDateStr(x2.sat); state.anchors.x2Index = idx; state.anchors.x2Calibrated = true;
+      saveState(); renderAll(); showToast(`✓ Đã đồng bộ x2 ${X2_CYCLE[idx]}`);
+    };
+    window.setFriSunThisWeekend = function(idx) {
+      const fs = getUpcomingFriSun(todayDate);
+      state.anchors.friSunFriday = toDateStr(fs.fri); state.anchors.friSunIndex = idx; state.anchors.friSunCalibrated = true;
+      saveState(); renderAll(); showToast(`✓ Đã đồng bộ T6–T2: ${FRISUN_CYCLE[idx]}`);
+    };
+    window.toggleType = function(t) { selectedType = selectedType === t ? null : t; renderRefView(); };
+
+    window.openCalibModal = function() {
+      document.getElementById("calibTodayText").textContent = fmtFull(todayDate);
+      const selX10 = document.getElementById("calX10");
+      selX10.innerHTML = X10_SLOTS.map(s => `<option value="${s.index}">Tuần ${s.week} (#${s.dayInWeek}): ${s.name}</option>`).join("");
+      selX10.value = String(getX10IndexOn(todayDate));
+
+      const { fri } = getNextOrCurrentFriday(todayDate);
+      const selW = document.getElementById("calWeekly");
+      selW.innerHTML = WEEKLY_MIRACLE.map(g => `<option value="${g.id}">${g.title} — ${g.short}</option>`).join("");
+      selW.value = String(getWeeklyMiracleOnFriday(fri).id);
+
+      const x2 = getUpcomingX2(todayDate);
+      const selX2 = document.getElementById("calX2");
+      selX2.innerHTML = X2_CYCLE.map((n, i) => `<option value="${i}">x2 ${n}</option>`).join("");
+      selX2.value = String(x2.idx);
+
+      const fs = getUpcomingFriSun(todayDate);
+      const selFS = document.getElementById("calFriSun");
+      selFS.innerHTML = FRISUN_CYCLE.map((n, i) => `<option value="${i}">${n}</option>`).join("");
+      selFS.value = String(fs.idx);
+
+      document.getElementById("calNewSrv").value = getUpcomingNewServer(todayDate).num;
+      document.getElementById("calibModal").classList.add("open");
+    };
+    const closeCalib = () => document.getElementById("calibModal").classList.remove("open");
+
+    document.getElementById("btnThemeToggle").addEventListener("click", () => {
+      const next = (document.documentElement.getAttribute("data-theme") || "light") === "dark" ? "light" : "dark";
+      applyTheme(next);
+      showToast(next === "dark" ? "🌙 Chế độ Tối" : "☀️ Chế độ Sáng");
+    });
+    document.querySelectorAll(".nav-tab").forEach(b => b.addEventListener("click", () => switchView(b.dataset.view)));
+    document.getElementById("todayQuickPill").addEventListener("click", () => jumpToDate(toDateStr(todayDate), true));
+    document.getElementById("btnCalToday").addEventListener("click", () => jumpToDate(toDateStr(todayDate), true));
+    document.getElementById("btnPrevMonth").addEventListener("click", () => { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); });
+    document.getElementById("btnNextMonth").addEventListener("click", () => { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); });
+
+    document.querySelectorAll("#lensBar .lens-btn").forEach(b => b.addEventListener("click", () => { activeLens = b.dataset.lens; renderCalendar(); }));
+    document.querySelectorAll("#weatherSubbar .fchip").forEach(b => b.addEventListener("click", () => { weatherTypeFilter = b.dataset.wtype; renderCalendar(); }));
+
+    const calSearchInput = document.getElementById("calSearch");
+    const calSearchClear = document.getElementById("calSearchClear");
+    calSearchInput.addEventListener("input", () => { calQuery = calSearchInput.value; calSearchClear.classList.toggle("show", calQuery.length > 0); renderCalendar(); });
+    calSearchClear.addEventListener("click", () => { calQuery = ""; calSearchInput.value = ""; calSearchClear.classList.remove("show"); renderCalendar(); });
+
+    document.getElementById("weeksSearch").addEventListener("input", e => { weeksQuery = e.target.value; renderWeeksView(); });
+    document.getElementById("btnWeeksWishOnly").addEventListener("click", () => { weeksWishOnly = !weeksWishOnly; renderWeeksView(); });
+    document.getElementById("btnClearType").addEventListener("click", () => { selectedType = null; renderRefView(); });
+
+    function runSrv(saveMine) {
+      const val = parseInt(document.getElementById("srvInput").value, 10);
+      const res = document.getElementById("srvResult");
+      if (!val || val < 1) { showToast("Nhập số server hợp lệ"); return; }
+      const c = findCluster(val);
+      res.style.display = "block";
+      res.innerHTML = c ? `🎯 Server <strong>S${val}</strong> thuộc cụm <strong>${c.id}</strong> (S${c.start}–${c.end})` : `S${val} nằm ngoài C1–C36 (S1–S2304).`;
+      renderServerGrid(c?.id || null);
+      if (c) document.getElementById(`srv-${c.id}`)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (saveMine) { state.myServer = val; saveState(); renderAll(); renderServerGrid(c?.id || null); showToast(`✓ Đã lưu S${val}`); }
+    }
+    document.getElementById("btnSrvFind").addEventListener("click", () => runSrv(false));
+    document.getElementById("btnSrvSave").addEventListener("click", () => runSrv(true));
+    document.getElementById("srvInput").addEventListener("keydown", e => { if (e.key === "Enter") runSrv(false); });
+
+    document.getElementById("btnOpenCalib").addEventListener("click", openCalibModal);
+    document.getElementById("calibClose").addEventListener("click", closeCalib);
+    document.getElementById("calibCancel").addEventListener("click", closeCalib);
+    document.getElementById("calibModal").addEventListener("click", e => { if (e.target.id === "calibModal") closeCalib(); });
+
+    const closeWishPicker = () => document.getElementById("wishPickerModal").classList.remove("open");
+    document.getElementById("wishPickerClose").addEventListener("click", closeWishPicker);
+    document.getElementById("wishPickerDone").addEventListener("click", closeWishPicker);
+    document.getElementById("wishPickerModal").addEventListener("click", e => { if (e.target.id === "wishPickerModal") closeWishPicker(); });
+    document.getElementById("wishPickerSearch").addEventListener("input", renderWishPicker);
+
+    document.getElementById("calibSave").addEventListener("click", () => {
+      const { fri } = getNextOrCurrentFriday(todayDate);
+      const x2 = getUpcomingX2(todayDate);
+      const fs = getUpcomingFriSun(todayDate);
+      state.anchors.x10Date = toDateStr(todayDate);
+      state.anchors.x10Index = Number(document.getElementById("calX10").value);
+      state.anchors.weeklyFriday = toDateStr(fri);
+      state.anchors.weeklyIndex = Number(document.getElementById("calWeekly").value);
+      state.anchors.x2Saturday = toDateStr(x2.sat);
+      state.anchors.x2Index = Number(document.getElementById("calX2").value);
+      state.anchors.x2Calibrated = true;
+      state.anchors.friSunFriday = toDateStr(fs.fri);
+      state.anchors.friSunIndex = Number(document.getElementById("calFriSun").value);
+      state.anchors.friSunCalibrated = true;
+      const sv = parseInt(document.getElementById("calNewSrv").value, 10);
+      if (sv > 0) { const u = getUpcomingNewServer(todayDate); state.anchors.newServerDate = toDateStr(u.date); state.anchors.newServerNum = sv; }
+      saveState(); closeCalib(); renderAll(); showToast("✓ Đã lưu mốc lịch!");
+    });
+
+    document.getElementById("calibReset").addEventListener("click", () => {
+      state.anchors = structuredClone(DEFAULT_STATE.anchors);
+      saveState(); closeCalib(); renderAll(); showToast("Đã khôi phục mặc định");
+    });
+
+    if (state.myServer) document.getElementById("srvInput").value = state.myServer;
+    renderAll();
+  </script>
+</body>
+</html>
